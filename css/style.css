@@ -1,0 +1,232 @@
+@font-face{
+    font-family: avenir;
+    src: url(fonts/Avenir-Medium.ttf);
+}
+*{
+	margin :0px;
+	padding:0px;
+}
+div,button,input,input:focus{
+	outline : none;
+}
+img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+}
+
+.dashLogo {
+    width: auto;
+    float: left;
+    margin-bottom: 10px;
+}
+  .reset{
+    position: absolute;
+    right: 2rem;
+    bottom: 1rem;
+    text-decoration: underline;    
+    cursor: pointer;
+  }
+textarea {
+    width: 100%!important;
+    border: none;
+    border-radius: 4px;
+    height: 250px;
+}
+textarea:focus{
+    outline: none;
+    border: none;
+    }
+.text-box{
+    padding: 2.5rem 2rem;
+    box-shadow: 0px 0px 3px 0px rgb(212, 213, 213);
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #fff;
+}
+.text-box:focus{    
+    outline: none !important;
+    border: 1px solid #cacacb!important;
+    -webkit-box-shadow: 0px 0px 35px -9px rgb(26, 26, 26);
+    -moz-box-shadow: 0px 0px 35px -9px rgb(164, 223, 152);
+    box-shadow: 0px 2px 6px 2px rgba(135, 135, 135, 0.21);
+}
+::-webkit-input-placeholder { 
+    color: #d7d7d7
+}
+::-webkit-scrollbar{
+    width: 0px!important;
+  }
+  body {
+    color: #424143;
+    font-family:'avenir';
+    background-color: #f6f6f6;
+    letter-spacing: 1px!important;
+}
+h4.title-sent{
+	font-size: 19px;
+	color: #424143;
+    font-weight: bold;
+    display: inline;
+}
+.tag{
+    display: inline-block;
+    color: white;
+    background-color: #E04C4C;
+    border-radius: 99px;
+    padding: 0.25rem 0.75rem;
+    margin-left: 1rem;
+}
+.tag-gray{
+    color: #424143;
+    background-color: #d4d4d4;
+    border-radius: 99px;
+    padding: 0.25rem 0.75rem;  
+    display: inline-block;
+    margin: .2rem;;     
+}
+.btn-outline {
+    margin: .5rem;
+    border: 1px solid #424143;
+    color: #424143;
+    min-width: 160px;
+    background-color: #ffffff;
+    transition: background-color 450ms ease;
+}
+
+.btn-solid{
+    margin: .5rem;
+    color: #fff;
+    min-width: 160px;
+    background-color: #424143;
+    transition: background-color 450ms ease;
+}
+.intro-btns {
+    flex-direction: column;
+    align-items: flex-end;
+}
+button {
+    display: inline-block;
+    border: none;
+    border-radius: 4px;
+    padding: 0.75rem 0.75rem;
+    margin: 0;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: transform 150ms ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.bg-fade{
+    background-color: #808081;
+}
+.mt-3{
+    margin-top: 3rem;
+}
+.mt-2{
+    margin-top: 2rem;
+}
+.mt-1{
+    margin-top: 1rem;
+}
+.mt-5{
+    margin-top: 5rem;
+}
+.mt-4{
+    margin-top: 4rem;
+}
+.p-LR-1{
+    padding: 0 1rem;
+}
+.p-LR-2{
+    padding: 0 2rem;
+}
+
+.fa-caret-right{
+    padding: 0px 4px;
+    border: 2px solid;
+    border-radius: 100%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.fa-pause-circle-o{
+    font-size: 18px;
+    vertical-align: middle;
+}
+input{
+    text-indent: 1remx;
+  }
+
+  .back-to-home a{
+      cursor: pointer;
+      text-decoration: none;
+      color: #424143;
+  }
+  .whater-mark{
+    width: 20%;
+    opacity: 0.1;
+    position: fixed;
+    right: 4rem;
+    bottom: 2%;
+  }
+  .card-head{
+    padding: 1rem;
+    text-align: center;
+    background: #808081;
+    color: white;
+  }
+
+  .card-body{
+    background: #ffffff;
+    height: 250px;
+    overflow:auto;   
+    padding: 1rem; 
+    box-shadow: 0px 0px 3px 0px rgb(212, 213, 213);
+  }
+  @media screen and (max-width: 769px) {
+    .intro-btns{ text-align: center;}
+    .intro-btns div {
+    display: inline-block;
+    }
+    .whater-mark{
+        width: 40%;
+    }
+
+  }
+  .error-msg{
+      height: 30px;
+  }
+  
+.loading-container{
+    background: #cececea6;
+    position: fixed;
+    top: 0px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+
+.modal-content {
+    padding: 20px!important;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 4px 5px rgba(0,0,0,.5);
+}
+.modal-head{
+    font-size: 2rem;
+}
+.border-buttomoNone{
+border-bottom: none;
+}
+.border-topNone{
+    border-top: none;
+}

@@ -121,6 +121,7 @@
 			var isPopover = $(e).attr("data-original-title");
 			$(id).css({"background-color":"#9a999b"});
 			console.log(e);
+			var content='Sorry, unable to find related Wikipedia articles on <b>'+keyword+'</b>';
 			
 				$(id).popover({
 					html: true,
@@ -129,11 +130,11 @@
 					content: "<div class='card-popover'><div class='cell'> <div class='spinner spinner-org'></div></div><div class='rightDiv'><p>Looking for related Wikipedia article…</p></div></div>",
 				  }).popover('show');
 
-			var templete="<div class='card-popover1'><div class='rightDiv'><p>Sorry, unable to find related Wikipedia articles on <b>"+keyword+"</b></p></div></div>";;	
-			var result='N';
+				
+				
 			$.ajax({
 				method: 'POST',
-				headers: { 'x-api-key': 'OaYpCkgRDn1DBbh4HGO4m4fKaX4RrX82tqepCb3d' },
+				headers: { 'x-api-key': apikey },
 				contentType: 'application/json',
 				url: 'https://dev.apis.sentient.io/microservices/utility/wikipedia/v0.1/getresults',
 				data:JSON.stringify({"title":keyword,"filter_key":"all"}),
@@ -144,25 +145,46 @@
 					//document.getElementById("loader").style.display = "none";
 					if(response.results !=undefined && response.results.summary!=undefined){
 						
-						var content=response.results.summary.substring(0,100)+"...";
-						templete="<div class='card-popover'><div class='rightDiv'><h5><b>"+keyword+"</b></h5><p>"+content+"</p><a href='"+response.results.url+"' target='_blank'>Visit Link in Wikipedia</a></div></div>";
-						
 						if(response.results.images.length>0){
-							templete="<div class='card-popover'><div class='leftDiv'><img class='flag' src='"+response.results.images[0]+"'></div><div class='rightDiv'><h5><b>"+keyword+"</b></h5><p>"+content+"</p><a href='"+response.results.url+"' target='_blank'>Visit Link in Wikipedia</a></div></div>";
+							$("<div class='leftDiv'><img class='flag' id='loc_img' src='"+response.results.images[0]+"'></div>").insertBefore(".rightDiv");
+							//$('#loc_img').attr('src', response.results.images[0]);
 						}
-						result='S';
+						content=response.results.summary.substring(0,100)+"...";
+						document.getElementById("loc_title").innerHTML = keyword;
+						
+						$('#loc_link').attr('href', response.results.url);
+						document.getElementById("loc_link").innerHTML = "Visit Link in Wikipedia";
+						
+					}else{
+						
+						$("#cardDiv").removeClass("card-popover");
+						$('.popover').css({"background-color":"#9a999b","color":"white"});
+						$("#cardDiv").addClass("card-popover1");
 					}
+					document.getElementById("loc_content").innerHTML = content;
+					$('.arrow').css({"display": "none"});
+					$('.spinner').hide();
 					
 					$(id).popover('destroy');
 					
 					setTimeout(function () {
-						showPop(id,templete,result);
-					},300);
+						$(id).popover({
+							html: true,
+							placement: 'top',
+							container: 'body',
+							content: "<div class='card-popover' id='cardDiv'><div class='cell'> <div class='spinner spinner-org'></div></div><div class='rightDiv'><h5><b id='loc_title'></b></h5><p id='loc_content'>"+content+"</p><a target='_blank' id='loc_link'></a></div></div>",
+						  }).popover('show');
+					},1000);
 				},
 				error: function (err) {
 					console.log(err);
 					a=0;
-					showPop(id,templete,result);
+						$("#cardDiv").removeClass("card-popover");
+						$('.popover').css({"background-color":"#9a999b","color":"white"});
+						$("#cardDiv").addClass("card-popover1");
+					document.getElementById("loc_content").innerHTML = content;
+					$('.arrow').css({"display": "none"});
+					$('.spinner').hide();
 				}
 				});
 		}
@@ -170,20 +192,6 @@
 	
 	function textClear(){
 		location.reload();
-	}
-	
-	//SHOW POPOVER BOX
-	function showPop(id,templete,result){
-		$(id).popover({
-			html: true,
-			placement: 'top',
-			container: 'body',
-			content: templete,
-		}).popover('show');
-		
-		if(result=='N'){
-			$('.popover').css({"background-color":"#9a999b","color":"white"});
-		}
 	}
 	
 	$('body').on('click', function (e) {

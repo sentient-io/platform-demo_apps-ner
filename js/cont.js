@@ -133,7 +133,7 @@
 			var result='N';
 			$.ajax({
 				method: 'POST',
-				headers: { 'x-api-key': 'OaYpCkgRDn1DBbh4HGO4m4fKaX4RrX82tqepCb3d' },
+				headers: { 'x-api-key': apikey },
 				contentType: 'application/json',
 				url: 'https://dev.apis.sentient.io/microservices/utility/wikipedia/v0.1/getresults',
 				data:JSON.stringify({"title":keyword,"filter_key":"all"}),

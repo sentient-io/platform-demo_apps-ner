@@ -1,4 +1,4 @@
-	var endpointurl = 'https://ner.sentient.io/api/ner';
+	var endpointurl = 'https://apis.sentient.io/microservices/nlp/namedentityrecognition/v0.1/getpredictions';
 	var callType = "AJAX";
 	var contentType = "application/json";
 	var inputjson = "";
@@ -10,16 +10,16 @@
 	
 	function contentCount(){
 		var textinput = document.getElementById('textinput').value;
-		document.getElementById('count').innerHTML = "<span class='reset'>Characters left: " + (textinput.length + " / 2000")+"</span>";
+		document.getElementById('count').innerHTML = "<span class='reset'>Characters left: " + (textinput.length + " / 5000")+"</span>";
 		document.getElementById('clearTxt').innerHTML = "<span class='reset'>Clear</span>";
 		
 		if(textinput.length >0){
 			$('.reset').css({"color":"#424143"});
 		}
 		
-		if (textinput.length >= 2001) {
+		if (textinput.length >= 5001) {
 			$("#confirmation-modal").modal();
-			document.getElementById("errorTxt").innerHTML = "Content allow upto 2000 Characters. Please Try Again...";
+			document.getElementById("errorTxt").innerHTML = "Content allow upto 5000 Characters. Please Try Again...";
 			return false;
 		}
 	}
@@ -40,10 +40,10 @@
 			document.getElementById('text-error').style.display = 'block';
 			return false;
 		}
-		document.getElementById('count').innerHTML = "Characters left: " + (textinput.length + " / 2000");
-		if (textinput.length >= 2001) {
+		document.getElementById('count').innerHTML = "Characters left: " + (textinput.length + " / 5000");
+		if (textinput.length >= 5001) {
 			$("#confirmation-modal").modal();
-			document.getElementById("errorTxt").innerHTML = "Content allow upto 2000 Characters. Please Try Again...";
+			document.getElementById("errorTxt").innerHTML = "Content allow upto 5000 Characters. Please Try Again...";
 			return false;
 		}
 		else{
@@ -133,7 +133,7 @@
 			var result='N';
 			$.ajax({
 				method: 'POST',
-				headers: { 'x-api-key': apikey },
+				headers: { 'x-api-key': 'OaYpCkgRDn1DBbh4HGO4m4fKaX4RrX82tqepCb3d' },
 				contentType: 'application/json',
 				url: 'https://dev.apis.sentient.io/microservices/utility/wikipedia/v0.1/getresults',
 				data:JSON.stringify({"title":keyword,"filter_key":"all"}),

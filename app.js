@@ -1,1 +1,1 @@
-var apikey = "ENTER YOUT API KEY";
+var apikey = "ENTER YOUR API KEY";

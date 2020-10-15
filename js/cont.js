@@ -1,4 +1,5 @@
-	var endpointurl = 'https://apis.sentient.io/microservices/nlp/namedentityrecognition/v0.1/getpredictions';
+	// Variable declaration
+	var endpointurl = 'https://apis.sentient.io/microservices/nlp/namedentityrecognition/v1/getpredictions';
 	var callType = "AJAX";
 	var contentType = "application/json";
 	var inputjson = "";
@@ -8,6 +9,7 @@
 	var othersList = '';
 	var w,x,y,z = '';
 	
+	// Characters count method
 	function contentCount(){
 		var textinput = document.getElementById('textinput').value;
 		document.getElementById('count').innerHTML = "<span class='reset'>Characters left: " + (textinput.length + " / 5000")+"</span>";
@@ -31,7 +33,10 @@
 		var othersList = '';
 		var w,x,y,z = '';
 		document.getElementById("responseDiv").style.display = "none";
+		
+		// Process
 		var textinput = document.getElementById('textinput').value;
+		// Remove special characters in the input text
 		var inputjsonRemoveSpace = textinput.replace(/\s+/g, " ");
 		var removesplchar = inputjsonRemoveSpace.replace(/[^a-zA-Z ]/g, "");
 		var inputjson = '{"text": "'+removesplchar+'"}';
@@ -49,12 +54,7 @@
 		else{
 			document.getElementById("loader").style.display = "flex";
 			document.getElementById('text-error').style.display = 'none';
-			
-			//console.log("api call input apikey : " + apikey);
-			//console.log("api call input contentType : "+ contentType);
-			//console.log("api call input endpointurl : " +endpointurl);
-			//console.log("api call input inputjson : " + inputjson);
-			
+			// Calling named entity recognition api
 			$.ajax({
 			method: 'POST',
 			headers: { 'x-api-key': apikey },
@@ -65,6 +65,7 @@
 				success: function (response) {
 					document.getElementById("loader").style.display = "none";
 					document.getElementById("responseDiv").style.display = "block";
+					// Response
 					var results = response;
 					var loc = results.LOC;
 					for (w in loc) {
@@ -108,6 +109,8 @@
 			});
 		}
 	}
+	
+	// Process wikipedia
 	var a=0;
 	function gotoNer(e){
 		if(a==0){
@@ -121,7 +124,6 @@
 			var isPopover = $(e).attr("data-original-title");
 			$(id).css({"background-color":"#9a999b"});
 			console.log(e);
-			
 				$(id).popover({
 					html: true,
 					placement: 'top',
@@ -131,6 +133,7 @@
 
 			var templete="<div class='card-popover1'><div class='rightDiv'><p>Sorry, unable to find related Wikipedia articles on <b>"+keyword+"</b></p></div></div>";;	
 			var result='N';
+			// Calling wikipedia api
 			$.ajax({
 				method: 'POST',
 				headers: { 'x-api-key': apikey },
@@ -141,7 +144,6 @@
 				success: function (response) {
 					console.log(response);
 					a=0;
-					//document.getElementById("loader").style.display = "none";
 					if(response.results !=undefined && response.results.summary!=undefined){
 						
 						var content=response.results.summary.substring(0,100)+"...";
@@ -152,9 +154,7 @@
 						}
 						result='S';
 					}
-					
 					$(id).popover('destroy');
-					
 					setTimeout(function () {
 						showPop(id,templete,result);
 					},300);
@@ -167,7 +167,7 @@
 				});
 		}
 	}
-	
+	// Clear Content
 	function textClear(){
 		location.reload();
 	}

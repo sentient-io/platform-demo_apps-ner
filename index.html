@@ -1,206 +1,220 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-	<!-- Required meta tags -->
+    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	
-    <title>Identify & Classify Objects In Text</title>
-	
-	<!-- favicon CSS -->
-    <link rel="icon" href="https://sentient.io/img/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://sentient.io/img/favicon.ico" type="image/x-icon">
-	
-	<!-- Optional JavaScript -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	
-	<!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	
-	<!-- Font awesome CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-	
-	<!-- Stores API Key -->
-    <script src="app.js"></script>
-	
-	<!-- API js below-->
-    <script src="js/ner.js"></script>
-    <script src="js/wikipedia.js"></script>
+
+    <link rel="icon" type="image/svg" href="img/Sentient-io_fav.svg" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="css/sentiestyle.css">
+
+    <!-- Import Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Import Fontawsome -->
+    <link rel="stylesheet" href="fontawsome/css/all.css">
+
+    <title>Identify & Classify Objects In Text (EN)</title>
 </head>
 
 <body>
-    <div class="loading-container loading-topbar" id="loader" style="display:none;">
-        <div>
-            <img width="200px" src="img/200323_v4-grey-semi-transparient.gif">
+    <!-- +-------+ -->
+    <!-- | Alert | -->
+    <!-- +-------+ -->
+    <div id="dmo-alert">
+    </div>
+    <!-- END Alert -->
+
+    <!-- * ------------------ * -->
+    <!-- * Sentient.io Loader * -->
+    <!-- * ------------------ * -->
+    <!-- Place Sentient.io Loader right after body tag, above eveything else -->
+    <div id="loader" style="display: none;">
+        <div class="sentie-loader d-flex flex-column justify-content-center align-items-center">
+            <img src="img/sentie-loader.gif" width="180px" height="auto" alt="">
+            <p>Processing ... </p>
+            <p id="loader-text" class="mx-5" style="max-width: 500px; text-align: center;"></p>
         </div>
     </div>
-    <div class="container-fluid CF-support">
-        <div class="container mt-5">
-			<!-- Header Content, title and description -->
-            <div class="row">
-                <div class="col-sm-8">
-					<h4 class="title-sent">Identify & Classify Objects In Text</h4> <span class="tag"><em>DEMO</em></span>
-					<p class="mt-2"> This demo app extract all objects (named entities) within a text blurb and classifies them as persons, locations, organisations (or others).<br><br>
-					Do note the 5000 character limit.  
-					</p>
-				</div>
-                <div class="col-sm-4 text-right">
-                    <div class="intro-btns">
-                        <div>
-                            <a href="https://platform.sentient.io/demoapps_detail##identify_classify_objects_in_text" target="_PARENT">
-                                <button type="button" class="btn-outline"> More Info </button>
-                            </a>
+    <!-- -END- Sentient.io Loader -->
+
+    <!-- Main Container -->
+    <div class="pb-5 bg-wave-pattern" style="min-height: calc(100vh - 100px);">
+        <div class="m-auto p-md-5 p-3" style="max-width:1200px">
+
+            <!-- Popup Alert -->
+            <div class="modal fade" id="alert" tabindex="-1" area-hidden="true">
+                <div class="modal-dialog d-flex" style="height:100vh">
+                    <div class="modal-content m-auto p-2">
+                        <div class="modal-header d-flex justify-content-center">
+                            <h5 class="modal-title" id="alertTitle"></h5>
                         </div>
-                        <div>
-
-                            <a href="https://github.com/sentient-io/platform-demo_apps-ner.git" target="_blank">
-                                <button type="button" class="btn-solid"> Demo App Code </button>
-                            </a>
-
+                        <div class="modal-body p-3">
+                            <p id="alertContent"></p>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
             </div>
-			<!-- Header Content, title and description -->
-			
-			<!-- Main Demo App Function -->
-            <div class="row  mt-2">
-                <div class="col-xs-12">
-                    <div class="text-center">
-                        <div style="position: relative;">
-                            <div class="error-msg" style="display:none;">
-                                <span style="color:red;" id="text-error">Please enter the Text to Analyse</span>
-                            </div>
-                            <div class="text-box">
-                                <textarea style="resize: none" placeholder="Type/paste text blurb here for analysis…"
-                                    id="textinput" name="textinput" onkeyup="contentCount();"></textarea>
-                            </div>
-                            <div class="btm-responce ">
-                                <div class="col-xs-6 p0 text-left" id="count">
-                                    <span class="reset">Characters left : 0/5000</span>
-                                </div>
-                                <div class="col-xs-6 p0 text-right" onclick="textClear()" id="clearTxt">
-                                    <span class="reset">Clear</span>
-                                </div>
-                            </div>
-                        </div>
+            <!-- -END- Popup Alert -->
 
-
-                        <button class="btn-solid mt-1 p1-5" onclick="sendBtn()"><span class="p-LR-1">Analyse Text
-                        </button>
-
+            <!-- Header Content, title and description -->
+            <div id="header-contianer" class="d-flex flex-column flex-md-row  justify-content-md-between">
+                <div id="header-container-l" class="d-flex flex-column col-md-8">
+                    <div class="d-flex flex-row">
+                        <h4>Identify & Classify Objects In Text (EN)</h4><span class="ml-2 p-2 badge badge-pill"
+                            style="background-color:#B71C1C; color:white; height: 28px;"><i>DEMO</i></span>
                     </div>
+                    <div class='mt-3'>
+                        <p>
+                            This demo app extract all objects (named entities) within a text blurb and classifies them
+                            as <em>persons, nationalities, buildings and facilities, locations, organisations,
+                                geopolitical,
+                                products, events, works of art, laws, languages, dates and time, monetary values</em>,
+                            and more.
+                        </p>
+                    </div>
+                </div>
+                <div id="header-container-r"
+                    class="d-flex flex-row flex-md-column col-md-3 justify-content-center demo-app-btn-container">
+                    <a href="https://platform.sentient.io/demoapps_detail#identify_classify_objects_in_text_en" target="_blank" class="mb-3 mx-auto d-block text-center sentie-btn-secondary"
+                        style="width: 200px;background: #f5f5f5;">
+                        More Info
+                    </a>
+                    <a href="https://github.com/sentient-io/platform-demo_apps-ner" target="_blank" class="mb-3 mx-auto text-center sentie-btn-primary sentie-btn-grey"
+                        style="width: 200px;">
+                        Demo App Code
+                    </a>
                 </div>
             </div>
-            <div class="row mt-1" id="responseDiv" style="display:none;margin-top:60px">
-                <div class="col-md-3 col-sm-6 col-xs-12 mt-1">
-                    <div class="panelBG">                      
-                        <div class="card-head loc"><strong>Locations</strong></div>
-                        <div class="card-body">
-                            <div id="locList">
-                               
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-12 mt-1">
-                    <div class="panelBG">                  
-                        <div class="card-head org"><strong>Organisations</strong></div>
-                        <div class="card-body">
-                            <div id="orgList">
-                               
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-12 mt-1 ">
-                    <div class="panelBG">
-                        <div class="card-head per"><strong>Persons</strong></div>
-                        <div class="card-body">
-                            <div id="perList">
-                               
-                            </div>
-                        </div>
-                    </div>
+            <!-- -END- Header Content, title and description -->
 
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-12 mt-1">
-                    <div class="panelBG">                     
-                        <div class="card-head other"><strong>Others</strong></div>
-                        <div class="card-body">
-                            <div id="othersList">
-                                
-                            </div>
+            <!-- Demo App Main Functions-->
+            <div class="p-3 mt-5 d-flex flex-column flex-lg-row" style="min-height: 30vh;">
+                <div id="functionsContianer" class="col-12">
+                    <!-- Text input -->
+                    <form action="#" class="mx-auto" style="max-width: 800px;">
+                        <textarea id="textArea" rows="15" maxlength="5000"
+                            class="px-2 pt-2 pb-4 shadow rounded-lg sentie-textarea"
+                            placeholder="Paste text here for analysis..."></textarea>
+                        <div class="px-3 bg-white d-flex justify-content-between"
+                            style="position: relative; top: -40px">
+                            <p id="word-counter" style="color: rgb(186, 186, 186);"></p>
+                            <button onclick="clearText('textArea')" class="pb-2 sentie-btn-cancel">Clear Text</button>
                         </div>
+                        <div class="m-auto col-6 d-flex justify-content-around">
+                        </div>
+                    </form>
+                    <!-- END Text input -->
+                </div>
+
+                <div id="resultContainer" class="col-12 col-lg-6" style="display: none;">
+                    <div class="py-2 text-white d-flex justify-content-center rounded-top-lg"
+                        style="position: relative;top: 0px; background-color:#230a59;">
+                        <h5 class="m-0">Result</h5>
                     </div>
+                    <div class="p-2 shadow rounded-bottom-lg bg-white d-flex flex-wrap"
+                        style="height: 490px; overflow-y: scroll;">
+
+                        <!-- #Component# Card with Tags -->
+                        <div class="card-columns" id="result">
+
+                        </div>
+                        <!-- -END- #Component# Card with Tags -->
+
+                    </div>
+                </div>
+
+            </div>
+            <!-- Demo App Controls -->
+            <div class="m-auto" style="max-width: 800px;">
+                <div class="d-flex flex-column-reverse flex-sm-row justify-content-center align-items-center">
+                    <button id="handelTextBtn" type="submit" value="Send" onclick="handelText('textArea'); return false"
+                        class="mb-1 mx-auto text-center s-btn s-bg-grey-8" disabled>Analyse
+                        Text</button>
+
+                    <button id="handelRestartBtn" onclick="handelRestart('textArea')"
+                        class="mb-1 mx-auto text-center sentie-btn-secondary" style="display: none;">Restart</button>
                 </div>
             </div>
+            <!-- -END- Demo App Controls -->
+            <!-- -END- Demp App Functions  -->
 
-            <div class="row mt-2 pb-2 text-center">
-                <span class="back-to-home"><a href="https://platform.sentient.io/catalogue" target="_PARENT"><i class="fa fa-long-arrow-left" aria-hidden="true"></i><span> Back to All
-                            Demo
-                            Apps</span></a></span>
-            </div>
-			<!-- Main Demo App Function -->
+        </div>
+
+        <!-- Back button to all demo app -->
+        <div class="d-flex justify-content-center">
+            <a href="https://platform.sentient.io/demoapps">
+                <button class="d-flex row align-items-center sentie-btn-cancel">
+                    <span class="material-icons mr-2 ">arrow_back</span>
+                    All Demo Apps
+                </button>
+            </a>
         </div>
     </div>
+    <!-- -END- Main Container -->
 
-	<!-- Footer -->
-    <footer>
-        <section class="footer-section">
-             <div>
-                <p>
-				Designed and built by <a href="https://www.sentient.io" target="_blank">Sentient.io</a> with the help of our contributors.
-			</p>
-                <p>
-				App version: 1.0.0. Source code for app available
-				<a href="https://github.com/sentient-io/platform-demo_apps-asr.git" target="_blank">here</a>.
-			</p>
+    <!-- Footer -->
+    <footer class="shadow-lg" style="background-color:white">
+        <div class="mx-auto pt-5 pb-3 d-flex flex-column justify-content-center flex-lg-row" style="max-width: 1000px;">
+            <div class="col-12 col-lg-8">
+                <div class="text-center text-lg-left">
+                    <p>
+                        Designed and built by <a href="https://www.sentient.io/" target="_blank"
+                            style="color:#bb9968">Sentient.io</a> with the help of our contributors.
+                    </p>
+                    <p>
+                        App version: 1.0.0 | Source code for app available
+                        <a href="https://github.com/sentient-io/platform-demo_apps-ner" target="_blank"
+                            style="color:#bb9968">here</a>.
+                    </p>
+                </div>
             </div>
-            <div class="footer-logo">
-                <img src="img/sentient-logo.png" alt="">
+            <div class="col-12 col-lg-4">
+                <a href="https://www.sentient.io/" target="_blank">
+                    <img src="img/sentient-logo.png" alt="Sentient.io logo" class="m-auto d-block"
+                        style="max-width:280px">
+                </a>
             </div>
-        </section>
+        </div>
     </footer>
-	<!-- End footer -->
-	
-	<!-- dialog box for error message -->
-    <div id="confirmation-modal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header border-buttomoNone">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title modal-head">Warning</h4>
-                </div>
-                <div class="modal-body">
-                    <p id="errorTxt"></p>
-                </div>
-                <div class="modal-footer border-topNone">
-                    <button type="button" class="btn-solid" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-			<!-- Modal content-->
-        </div>
-    </div>
-	<!-- dialog box for error message -->
+    <!-- -End- footer -->
+
+
+    <!-- jQuery(Google) first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+
+    <!-- Bootstrap tool tip -->
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+    <script src="js/spaCyNER.js"></script>
+    <script src="js/wikipediaRetrieval.js"></script>
+
+    <!-- Stores API Key -->
+    <script src="app.js"></script>
+
+    <script src="js/main.js"></script>
+
+
+
 </body>
-<script>
-    $(document).ready(function () {
-        $('[data-toggle="popover"]').popover({ html: true });
-    });
-    $("html").on("mouseup", function (e) {
-        var l = $(e.target);
-        if (l[0].className.indexOf("popover") == -1) {
-            $(".popover").each(function () {
-                $(this).popover("hide");
-				$(this).popover('destroy');
-				$('.tag-gray').css({"background-color":"#f5f5f5"});
-            });
-        }
-    });
-</script>
 
 </html>
